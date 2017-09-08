@@ -1231,6 +1231,8 @@ def registered_client(args, existing_account_key):
     except messages.Error as error:
         if error.detail != 'Registration key is already in use':
             raise
+    except acme_errors.ConflictError:
+        pass
     else:
         if regr.terms_of_service is not None:
             tos_hash = sha256_of_uri_contents(regr.terms_of_service)
